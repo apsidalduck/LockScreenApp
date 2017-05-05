@@ -15,6 +15,7 @@ import com.mehuljoisar.lockscreen.R;
 public class LockscreenService extends Service {
 
 	private BroadcastReceiver mReceiver;
+	private BroadcastReceiver mScreenOnReceiver;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -33,7 +34,7 @@ public class LockscreenService extends Service {
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		mReceiver = new LockscreenIntentReceiver();
 		registerReceiver(mReceiver, filter);
-		startForeground();
+        startForeground();
 		return START_STICKY;
 	}
 

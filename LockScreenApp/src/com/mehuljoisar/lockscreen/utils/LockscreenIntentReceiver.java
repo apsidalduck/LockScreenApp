@@ -1,5 +1,6 @@
 package com.mehuljoisar.lockscreen.utils;
 
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +23,13 @@ public class LockscreenIntentReceiver extends BroadcastReceiver {
 
 	// Display lock screen
 	private void start_lockscreen(Context context) {
-		Intent mIntent = new Intent(context, LockScreenActivity.class);
-		mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(mIntent);
+		KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+		if(!myKM.isDeviceLocked()) { //inKeyguardRestrictedInputMode()) {
+			//it is not already locked
+			Intent mIntent = new Intent(context, LockScreenActivity.class);
+			mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(mIntent);
+		}
 	}
 
 }

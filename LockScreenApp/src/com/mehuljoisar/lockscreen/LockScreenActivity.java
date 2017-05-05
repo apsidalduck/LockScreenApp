@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
@@ -25,25 +26,16 @@ public class LockScreenActivity extends Activity implements
 	// Member variables
 	private LockscreenUtils mLockscreenUtils;
 
-	// Set appropriate flags to make the screen appear over the keyguard
-	@Override
-	public void onAttachedToWindow() {
-		this.getWindow().setType(
-				WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
-		this.getWindow().addFlags(
-				WindowManager.LayoutParams.FLAG_FULLSCREEN
-						| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-						| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-						);
-
-		super.onAttachedToWindow();
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        // http://stackoverflow.com/questions/34300546/min-target-must-be-less-than-14-when-windowmanager-layoutparams-type-keyguard-us
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        super.onCreate(savedInstanceState);
+
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,   WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
 		setContentView(R.layout.activity_lockscreen);
 
 		init();
